@@ -1,5 +1,5 @@
 var express = require('express');
-var parth = require('path');
+var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
@@ -29,5 +29,7 @@ app.use(function(err,req,res,next){
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.set('view engine', 'html');
 
 module.exports = app;
