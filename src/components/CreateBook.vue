@@ -1,17 +1,17 @@
 <template>
   <b-row>
     <b-col cols="12">
-      <h2> Add Book 
+      <h2> Add Book
         <b-link href="#/">(Book List)</b-link>
       </h2>
       <b-form @submit="onSubmit">
-        <b-form-group id="fieldsetHorizontal" 
+        <b-form-group id="fieldsetHorizontal"
                       horizontal
                       :label-cols="4"
                       breakpoint="md"
                       label="Enter ISBN">
-          <b-form-input id="isbn" 
-                        :state="state" 
+          <b-form-input id="isbn"
+                        :state="state"
                         v-model.trim="book.isbn">
           </b-form-input>
         </b-form-group>
@@ -44,7 +44,7 @@
                            v-model="book.description"
                            placeholder="Enter the book's Description"
                            :rows="2"
-                           :max-rows="6"> 
+                           :max-rows="6">
             {{ book.description }}
           </b-form-textarea>
         </b-form-group>
@@ -89,18 +89,17 @@ export default {
   methods: {
     onSubmit (evt) {
       evt.preventDefault()
-      axios.post('http://localhost/book', this.book)
-           .then(response => {
-             this.$router.push({
-               name: 'ShowBook',
-               params: { id: response.data._id }
-             })
-           )}
-           .catch(e => {
-             this.errors.push(e)
-           })
+      axios.post('/book', this.book)
+        .then(response => {
+          this.$router.push({
+            name: 'ShowBook',
+            params: { id: response.data._id }
+          })
+        })
+        .catch(e => {
+          this.errors.push(e)
+        })
     }
   }
 }
 </script>
-

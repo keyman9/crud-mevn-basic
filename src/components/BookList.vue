@@ -1,7 +1,7 @@
 <template>
   <b-row>
     <b-col cols="12">
-      <h2> Book List 
+      <h2> Book List
         <b-link href="#/add-book">(Add Book)</b-link>
       </h2>
       <b-table striped hover :items="books" :fields="fields">
@@ -10,14 +10,13 @@
         </template>
       </b-table>
       <ul v-if="errors && errors.length">
-        <li v-for="error of errors">
+        <li v-for="error of errors" v-bind:key="error">
           {{ error.message }}
         </li>
       </ul>
     </b-col>
   </b-row>
 </template>
-
 
 <script>
 import axios from 'axios'
@@ -29,16 +28,16 @@ export default {
       fields: {
         isbn: { label: 'ISBN', sortable: true, 'class': 'text-center' },
         title: { label: 'Book Title', sortable: true },
-        actions: { label: 'Action', 'class': 'text-center' },
+        actions: { label: 'Action', 'class': 'text-center' }
       },
       books: [],
       errors: []
     }
   },
   created () {
-    axios.get('https://localhost:3000/book')
-         .then(response => { this.books = response.data })
-         .catch(e => { this.errors.push(e) })
+    axios.get('/book')
+      .then(response => { this.books = response.data })
+      .catch(e => { this.errors.push(e) })
   },
   methods: {
     details (book) {
@@ -49,4 +48,4 @@ export default {
     }
   }
 }
-</script> 
+</script>

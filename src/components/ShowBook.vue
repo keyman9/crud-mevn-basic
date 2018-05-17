@@ -39,13 +39,13 @@ export default {
     }
   },
   created () {
-    axios.get(`http://localhost:3000/book/` + this.$route.params.id)
-    .then(response => {
-      this.book = response.data
-    })
-    .catch(e => {
-      this.errors.push(e)
-    })
+    axios.get(`/book/` + this.$route.params.id)
+      .then(response => {
+        this.book = response.data
+      })
+      .catch(e => {
+        this.errors.push(e)
+      })
   },
   methods: {
     editbook (bookid) {
@@ -55,15 +55,15 @@ export default {
       })
     },
     deletebook (bookid) {
-      axios.delete('http://localhost:3000/book/' + bookid)
-      .then((result) => {
-        this.$router.push({
-          name: 'BookList'
+      axios.delete('/book/' + bookid)
+        .then((result) => {
+          this.$router.push({
+            name: 'BookList'
+          })
         })
-      })
-      .catch(e => {
-        this.errors.push(e)
-      })
+        .catch(e => {
+          this.errors.push(e)
+        })
     }
   }
 }
