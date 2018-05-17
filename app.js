@@ -32,4 +32,11 @@ app.use(function(err,req,res,next){
 
 app.set('view engine', 'html');
 
+//set up mongoose and bluebird for use with mongodb
+var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
+mongoose.connect('mongodb://localhost/mean-angular5', { useMongoClient: true, promiseLibrary: require('bluebird')})
+  .then(() => console.log('connection successful'))
+  .catch((err) => console.error(err));
+
 module.exports = app;
