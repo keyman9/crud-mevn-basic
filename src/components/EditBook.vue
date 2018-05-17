@@ -3,26 +3,57 @@
     <b-col cols="12">
       <h2>
         Edit Book
-          <b-link href="#/">(Book List)</b-link>
+        <router-link :to="{ name: 'ShowBook', params: { id: book._id } }">(Show Book)</router-link>
       </h2>
-      <b-jumbotron>
-        <template slot="header">
-          {{book.title}}
-        </template>
-        <template slot="lead">
-          ISBN: {{book.isbn}}<br>
-          Author: {{book.author}}<br>
-          Description: {{book.description}}<br>
-          Published Year: {{book.published_year}}<br>
-          Publisher: {{book.publisher}}<br>
-        </template>
-        <hr class="my-4">
-        <p>
-          Updated Date: {{book.updated_date}}
-        </p>
-        <b-btn variant="success" @click.stop="editbook(book._id)">Edit</b-btn>
-        <b-btn variant="danger" @click.stop="deletebook(book._id)">Delete</b-btn>
-      </b-jumbotron>
+      <b-form @submit="onSubmit">
+        <b-form-group id="fieldsetHorizontal"
+                  horizontal
+                  :label-cols="4"
+                  breakpoint="md"
+                  label="Enter ISBN">
+          <b-form-input id="isbn" :state="state" v-model.trim="book.isbn"></b-form-input>
+        </b-form-group>
+        <b-form-group id="fieldsetHorizontal"
+                  horizontal
+                  :label-cols="4"
+                  breakpoint="md"
+                  label="Enter Title">
+          <b-form-input id="title" :state="state" v-model.trim="book.title"></b-form-input>
+        </b-form-group>
+        <b-form-group id="fieldsetHorizontal"
+                  horizontal
+                  :label-cols="4"
+                  breakpoint="md"
+                  label="Enter Author">
+          <b-form-input id="author" :state="state" v-model.trim="book.author"></b-form-input>
+        </b-form-group>
+        <b-form-group id="fieldsetHorizontal"
+                  horizontal
+                  :label-cols="4"
+                  breakpoint="md"
+                  label="Enter Description">
+            <b-form-textarea id="description"
+                       v-model="book.description"
+                       placeholder="Enter something"
+                       :rows="2"
+                       :max-rows="6">{{book.description}}</b-form-textarea>
+        </b-form-group>
+        <b-form-group id="fieldsetHorizontal"
+                  horizontal
+                  :label-cols="4"
+                  breakpoint="md"
+                  label="Enter Publisher Year">
+          <b-form-input id="published_year" :state="state" v-model.trim="book.published_year"></b-form-input>
+        </b-form-group>
+        <b-form-group id="fieldsetHorizontal"
+                  horizontal
+                  :label-cols="4"
+                  breakpoint="md"
+                  label="Enter Publisher">
+          <b-form-input id="publisher" :state="state" v-model.trim="book.publisher"></b-form-input>
+        </b-form-group>
+        <b-button type="submit" variant="primary">Update</b-button>
+      </b-form>
     </b-col>
   </b-row>
 </template>
@@ -32,10 +63,10 @@
 import axios from 'axios'
 
 export default {
-  name: 'ShowBook',
+  name: 'EditBook',
   data () {
     return {
-      book: []
+      book: {}
     }
   },
   created () {
@@ -48,17 +79,13 @@ export default {
     })
   },
   methods: {
-    editbook (bookid) {
-      this.$router.push({
-        name: 'EditBook',
-        params: { id: bookid }
-      })
-    },
-    deletebook (bookid) {
-      axios.delete('http://localhost:3000/book/' + bookid)
-      .then((result) => {
+    onSubmit (evt) {
+      evt.preventDefault()
+      axios.put(`http://localhost:3000/book/` + this.$route.params.id, this.book)
+      .then(response => {
         this.$router.push({
-          name: 'BookList'
+          name: 'ShowBook',
+          params: { id: this.$route.params.id }
         })
       })
       .catch(e => {
@@ -68,9 +95,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  .jumbotron {
-    padding: 2rem;
-  }
-</style>
