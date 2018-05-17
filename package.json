@@ -16,6 +16,8 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",
+    "bootstrap": "^4.0.0-beta.2",
+    "bootstrap-vue": "^2.0.0-rc.10",
     "express": "^4.16.3",
     "mongoose": "^5.1.1",
     "morgan": "^1.9.0",
